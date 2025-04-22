@@ -22,14 +22,16 @@ def confiabilidad_sistema(tasas_falla, k, t):
     n = len(tasas_falla)
     confiabilidad_total = 0
 
+    # Consideramos todas las combinaciones de al menos K componentes operativos
     for i in range(k, n + 1):
         for indices_on in itertools.combinations(range(n), i):
             prob = 1
+            # Para cada combinación, calculamos la probabilidad de que los componentes estén operativos
             for j in range(n):
                 if j in indices_on:
-                    prob *= confiabilidad_individual(tasas_falla[j], t)
+                    prob *= confiabilidad_individual(tasas_falla[j], t)  # Componente operativo
                 else:
-                    prob *= (1 - confiabilidad_individual(tasas_falla[j], t))
+                    prob *= (1 - confiabilidad_individual(tasas_falla[j], t))  # Componente fallando
             confiabilidad_total += prob
 
     return confiabilidad_total
